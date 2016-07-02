@@ -16,6 +16,7 @@ public class MainThreadImpl implements MainThread {
     private Handler mHandler;
 
     private MainThreadImpl() {
+
         mHandler = new Handler(Looper.getMainLooper());
     }
 
