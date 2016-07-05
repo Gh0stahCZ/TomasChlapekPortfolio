@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.tomaschlapek.portfolio"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.tomaschlapek.portfolio"
+  >
 
-    <application
-        android:name="com.tomaschlapek.portfolio.AndroidApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.tomaschlapek.portfolio.presentation.ui.activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <uses-permission android:name="android.permission.INTERNET" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+  <application
+    android:name=".AndroidApplication"
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme"
+    >
+    <activity android:name=".presentation.ui.activities.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="79c58aa45a13d77a8fa8a9f43c6f3d452a9b7e93"
+      />
+
+  </application>
 
 </manifest>
