@@ -3,6 +3,8 @@
           package="com.tomaschlapek.portfolio"
   >
 
+  <uses-permission android:name="android.permission.INTERNET" />
+
   <application
     android:name=".AndroidApplication"
     android:allowBackup="true"
@@ -18,6 +20,12 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="79c58aa45a13d77a8fa8a9f43c6f3d452a9b7e93"
+      />
+
   </application>
 
 </manifest>

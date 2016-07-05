@@ -6,8 +6,8 @@ import android.content.Context;
 import com.tomaschlapek.portfolio.data.SharedPreferencesManager;
 import com.tomaschlapek.portfolio.modules.AppModule;
 import com.tomaschlapek.portfolio.modules.StorageModule;
+import com.tomaschlapek.portfolio.navigation.Navigator;
 import com.tomaschlapek.portfolio.presentation.ui.activities.BaseActivity;
-import com.tomaschlapek.portfolio.presentation.ui.activities.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -23,7 +23,10 @@ public interface AppComponent {
 
   void inject(BaseActivity activity);
 
-  Application providesApplication();
-  Context providesContext();
+  Application provideApplication();
+
+  Context provideContext();
   SharedPreferencesManager provideSharedPreferenceManager();
+
+  Navigator provideNavigator();
 }

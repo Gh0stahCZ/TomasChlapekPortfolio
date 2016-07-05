@@ -9,7 +9,6 @@ public class Navigator {
 
   long time;
 
-  @Inject
   public Navigator() {
     this.time = System.currentTimeMillis();
   }

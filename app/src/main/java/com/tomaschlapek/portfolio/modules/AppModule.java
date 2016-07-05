@@ -1,6 +1,9 @@
 package com.tomaschlapek.portfolio.modules;
 
 import android.app.Application;
+import android.content.Context;
+
+import com.tomaschlapek.portfolio.navigation.Navigator;
 
 import javax.inject.Singleton;
 
@@ -27,8 +30,14 @@ public class AppModule {
 
   @Provides
   @Singleton
-  Application providesContext() {
+  Context provideContext() {
     return this.mApplication;
+  }
+
+  @Provides
+  @Singleton
+  Navigator provideNavigator() {
+    return new Navigator();
   }
 }
 
