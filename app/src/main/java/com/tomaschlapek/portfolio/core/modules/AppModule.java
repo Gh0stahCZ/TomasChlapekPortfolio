@@ -1,4 +1,4 @@
-package com.tomaschlapek.portfolio.modules;
+package com.tomaschlapek.portfolio.core.modules;
 
 import android.app.Application;
 import android.content.Context;
@@ -13,7 +13,11 @@ import dagger.Provides;
 /**
  * Created by tomaschlapek on 4/7/16.
  */
-@Module
+@Module(
+  includes = {
+    UiModule.class
+  }
+)
 public class AppModule {
 
   private Application mApplication;

@@ -1,21 +1,28 @@
 package com.tomaschlapek.portfolio;
 
-import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
-import com.tomaschlapek.portfolio.components.AppComponent;
-import com.tomaschlapek.portfolio.components.DaggerAppComponent;
-import com.tomaschlapek.portfolio.modules.AppModule;
-import com.tomaschlapek.portfolio.modules.StorageModule;
+import com.tomaschlapek.portfolio.core.components.AppComponent;
+import com.tomaschlapek.portfolio.core.components.DaggerAppComponent;
+import com.tomaschlapek.portfolio.core.modules.AppModule;
+import com.tomaschlapek.portfolio.core.modules.NetModule;
 
-import okhttp3.OkHttpClient;
 import timber.log.Timber;
 import timber.log.Timber.DebugTree;
 
-public class AndroidApplication extends Application {
+public class AndroidApplication extends MultiDexApplication {
 
     private AppComponent appComponent;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
@@ -29,14 +36,14 @@ public class AndroidApplication extends Application {
         });
 
         LeakCanary.install(this);
-
         initStetho();
-
         Timber.d("Stetho is ready.");
 
-
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this))
-          .storageModule(new StorageModule(this)).build();
+          .netModule(new NetModule()).build();
+
+        //        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this))
+        //          .storageModule(new CustomModule(this)).build();
     }
 
     public void initStetho() {
