@@ -1,3 +1,9 @@
 <resources>
   <string name="app_name">Tomas Chlapek Portfolio</string>
+
+  <string name="drawer.item.portfolio">Portfolios</string>
+  <string name="drawer.item.cv">CV</string>
+  <string name="drawer.item.blog">Blog</string>
+  <string name="drawer.item.contact">Contact</string>
+
 </resources>

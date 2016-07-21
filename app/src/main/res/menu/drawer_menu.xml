@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/menu_item_portfolio"
+      android:title="@string/drawer.item.portfolio"
+      android:checked="true"
+      />
+    <item
+      android:id="@+id/menu_item_cv"
+      android:title="@string/drawer.item.cv"
+      />
+    <item
+      android:id="@+id/menu_item_blog"
+      android:title="@string/drawer.item.blog"
+      />
+    <item
+      android:id="@+id/menu_item_contact"
+      android:title="@string/drawer.item.contact"
+      />
+
+  </group>
+</menu>

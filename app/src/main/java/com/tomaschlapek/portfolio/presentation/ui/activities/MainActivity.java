@@ -1,6 +1,8 @@
 package com.tomaschlapek.portfolio.presentation.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity implements View {
+public class MainActivity extends DrawerActivity implements View {
 
     @BindView(R.id.retrofit_output)
     TextView retrofitTextVIew;
@@ -49,7 +51,12 @@ public class MainActivity extends BaseActivity implements View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        // inflate the custom activity layout
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        android.view.View activityView = layoutInflater.inflate(R.layout.portfolio_view, null,false);
+        // add the custom layout of this activity to frame layout.
+        mMainContainer.addView(activityView);
+
         ButterKnife.bind(this);
         ButterKnife.setDebug(true);
 
