@@ -25,6 +25,10 @@ public class ThreadExecutor implements Executor {
 
     private ThreadPoolExecutor mThreadPoolExecutor;
 
+    public ThreadPoolExecutor getThreadPoolExecutor() {
+        return mThreadPoolExecutor;
+    }
+
     private ThreadExecutor() {
         long keepAlive = KEEP_ALIVE_TIME;
         mThreadPoolExecutor = new ThreadPoolExecutor(
@@ -53,7 +57,7 @@ public class ThreadExecutor implements Executor {
      * Returns a singleton instance of this executor. If the executor is not initialized then it initializes it and returns
      * the instance.
      */
-    public static Executor getInstance() {
+    public static ThreadExecutor getInstance() {
         if (sThreadExecutor == null) {
             sThreadExecutor = new ThreadExecutor();
         }

@@ -11,6 +11,7 @@ import android.support.v4.widget.NestedScrollView;
 import com.tomaschlapek.portfolio.AndroidApplication;
 import com.tomaschlapek.portfolio.R;
 import com.tomaschlapek.portfolio.core.components.PortfolioRepositoryComponent;
+import com.tomaschlapek.portfolio.core.executor.PostExecutionThread;
 import com.tomaschlapek.portfolio.core.modules.PortfolioRepositoryModule;
 import com.tomaschlapek.portfolio.domain.executor.impl.ThreadExecutor;
 import com.tomaschlapek.portfolio.domain.repository.PortfolioRepository;
@@ -19,6 +20,8 @@ import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter;
 import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter.View;
 import com.tomaschlapek.portfolio.presentation.presenters.impl.MainPresenterImpl;
 import com.tomaschlapek.portfolio.threading.MainThreadImpl;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,15 +50,21 @@ public class MainActivity extends DrawerActivity implements View {
 
     MainPresenter mMainPresenter;
 
+    @Inject
+    PostExecutionThread mPostExecutionThread;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        android.view.View activityView = layoutInflater.inflate(R.layout.portfolio_view, null,false);
+
+        android.view.View portfolioView =
+          layoutInflater.inflate(R.layout.portfolio_view, mMainContainer, true);
         // add the custom layout of this activity to frame layout.
-        mMainContainer.addView(activityView);
+//        mMainContainer.addView(portfolioView);
 
         ButterKnife.bind(this);
         ButterKnife.setDebug(true);

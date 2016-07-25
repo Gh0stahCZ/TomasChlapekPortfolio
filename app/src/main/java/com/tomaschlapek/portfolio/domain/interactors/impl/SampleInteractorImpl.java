@@ -1,7 +1,7 @@
 package com.tomaschlapek.portfolio.domain.interactors.impl;
 
-import com.tomaschlapek.portfolio.domain.executor.Executor;
 import com.tomaschlapek.portfolio.domain.executor.MainThread;
+import com.tomaschlapek.portfolio.domain.executor.impl.ThreadExecutor;
 import com.tomaschlapek.portfolio.domain.interactors.SampleInteractor;
 import com.tomaschlapek.portfolio.domain.interactors.base.AbstractInteractor;
 import com.tomaschlapek.portfolio.domain.repository.Repository;
@@ -15,7 +15,7 @@ public class SampleInteractorImpl extends AbstractInteractor implements SampleIn
     private SampleInteractor.Callback mCallback;
     private Repository                mRepository;
 
-    public SampleInteractorImpl(Executor threadExecutor,
+    public SampleInteractorImpl(ThreadExecutor threadExecutor,
                                 MainThread mainThread,
                                 Callback callback, Repository repository) {
         super(threadExecutor, mainThread);

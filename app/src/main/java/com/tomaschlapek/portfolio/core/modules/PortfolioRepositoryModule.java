@@ -2,7 +2,7 @@ package com.tomaschlapek.portfolio.core.modules;
 
 import android.content.Context;
 
-import com.tomaschlapek.portfolio.core.scopes.CustomScope;
+import com.tomaschlapek.portfolio.core.scopes.PerActivity;
 import com.tomaschlapek.portfolio.domain.repository.PortfolioRepository;
 import com.tomaschlapek.portfolio.storage.PortfolioRepositoryImpl;
 
@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 public class PortfolioRepositoryModule {
 
   @Provides
-  @CustomScope
+  @PerActivity
   public PortfolioRepository providePortfolioRepository(Context context, Retrofit retrofit) {
     return new PortfolioRepositoryImpl(context, retrofit);
   }

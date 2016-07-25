@@ -72,7 +72,15 @@ dependencies {
   compile "me.henrytao:smooth-app-bar-layout:23.1.1"
 
   // network
-  compile 'com.squareup.retrofit2:retrofit:2.0.0'
+  compile 'com.squareup.retrofit2:retrofit:2.1.0'
+  compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+  compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+  //rxjava
+  compile 'io.reactivex:rxjava:1.1.6'
+  compile 'io.reactivex:rxandroid:1.2.1'
+  compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+
 
   // debug
   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
@@ -121,3 +129,4 @@ dependencies {
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'

@@ -1,6 +1,5 @@
 package com.tomaschlapek.portfolio.domain.interactors.base;
 
-
 /**
  * This is the main interface of an interactor. Each interactor serves a specific use case.
  */
@@ -11,4 +10,6 @@ public interface Interactor {
      * background thread.
      */
     void execute();
+
+//    void execute(DefaultSubscriber subscriber);
 }

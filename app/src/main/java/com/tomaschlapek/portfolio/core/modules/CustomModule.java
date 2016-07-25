@@ -1,6 +1,6 @@
 package com.tomaschlapek.portfolio.core.modules;
 
-import com.tomaschlapek.portfolio.core.scopes.CustomScope;
+import com.tomaschlapek.portfolio.core.scopes.PerActivity;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,7 +16,7 @@ import dagger.Provides;
 public class CustomModule {
 
   @Provides
-  @CustomScope
+  @PerActivity
   public Object provideCustomObject() {
     return new Object();
   }

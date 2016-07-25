@@ -1,7 +1,11 @@
 package com.tomaschlapek.portfolio.domain.interactors.base;
 
-import com.tomaschlapek.portfolio.domain.executor.Executor;
 import com.tomaschlapek.portfolio.domain.executor.MainThread;
+import com.tomaschlapek.portfolio.domain.executor.impl.ThreadExecutor;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by dmilicic on 8/4/15.
@@ -15,15 +19,20 @@ import com.tomaschlapek.portfolio.domain.executor.MainThread;
  */
 public abstract class AbstractInteractor implements Interactor {
 
-    protected Executor   mThreadExecutor;
+    protected ThreadExecutor mThreadExecutor;
     protected MainThread mMainThread;
+    protected Observable.Transformer<Object, Object> mSchedulersTransformer;
+      //RxJava Transformer for reusing multiple streams.
 
     protected volatile boolean mIsCanceled;
     protected volatile boolean mIsRunning;
 
-    public AbstractInteractor(Executor threadExecutor, MainThread mainThread) {
+    public AbstractInteractor(ThreadExecutor threadExecutor, MainThread mainThread) {
         mThreadExecutor = threadExecutor;
         mMainThread = mainThread;
+        mSchedulersTransformer = tObservable -> tObservable
+          .subscribeOn(Schedulers.from(mThreadExecutor.getThreadPoolExecutor()))
+          .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.tomaschlapek.portfolio.core.components;
 import android.app.Application;
 import android.content.Context;
 
+import com.tomaschlapek.portfolio.core.executor.PostExecutionThread;
 import com.tomaschlapek.portfolio.core.modules.AppModule;
 import com.tomaschlapek.portfolio.core.modules.CustomModule;
 import com.tomaschlapek.portfolio.core.modules.MainActivityModule;
@@ -42,5 +43,9 @@ public interface AppComponent {
   OkHttpClient provideApi();
 
 //  MainActivity provideMainActivity();
+
+//  ThreadExecutor provideThreadExecutor();
+
+  PostExecutionThread providePostExecutionThread();
 
 }
