@@ -5,5 +5,11 @@
   <string name="drawer.item.cv">CV</string>
   <string name="drawer.item.blog">Blog</string>
   <string name="drawer.item.contact">Contact</string>
+  <string name="exit.message">Do you want to exit app?</string>
+
+
+  <string name="button.retry">Retry</string>
+  <string name="error.no_internet_connection">No intenert connection</string>
+  <string name="error.unexpect">Something went wrong during whilst retieving portfolio.Please try again...</string>
 
 </resources>

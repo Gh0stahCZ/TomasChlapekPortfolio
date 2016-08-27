@@ -1,111 +1,201 @@
 package com.tomaschlapek.portfolio.presentation.ui.activities;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import android.support.v4.widget.NestedScrollView;
 
 import com.tomaschlapek.portfolio.AndroidApplication;
-import com.tomaschlapek.portfolio.R;
-import com.tomaschlapek.portfolio.core.components.PortfolioRepositoryComponent;
 import com.tomaschlapek.portfolio.core.executor.PostExecutionThread;
-import com.tomaschlapek.portfolio.core.modules.PortfolioRepositoryModule;
-import com.tomaschlapek.portfolio.domain.executor.impl.ThreadExecutor;
-import com.tomaschlapek.portfolio.domain.repository.PortfolioRepository;
-import com.tomaschlapek.portfolio.network.model.Portfolio;
+import com.tomaschlapek.portfolio.domain.enumeration.InitPageType;
+import com.tomaschlapek.portfolio.factory.MainPresenterFactory;
+import com.tomaschlapek.portfolio.factory.PresenterFactory;
+import com.tomaschlapek.portfolio.navigation.Navigator;
 import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter;
-import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter.View;
-import com.tomaschlapek.portfolio.presentation.presenters.impl.MainPresenterImpl;
-import com.tomaschlapek.portfolio.threading.MainThreadImpl;
+import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter.Vista;
+import com.tomaschlapek.portfolio.presentation.presenters.base.BasePresenter;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.BaseFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.BlogEntryFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.BlogListFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.ContactInfoFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.CvInfoFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.PortfolioDetailFragment;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.PortfolioListFragment;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import timber.log.Timber;
+public class MainActivity extends DrawerActivity implements Vista {
 
-public class MainActivity extends DrawerActivity implements View {
+    public static class Extra {
+        public static final String PORTFOLIO_LIST_FRAGMENT = "portfolio_list_fragment";
+        public static final String PORTFOLIO_DETAIL_FRAGMENT = "portfolio_detail_fragment";
 
-    @BindView(R.id.retrofit_output)
-    TextView retrofitTextVIew;
+        public static final String BLOG_LIST_FRAGMENT = "blog_list_fragment";
+        public static final String BLOG_ENTRY_FRAGMENT = "blog_entry_fragment";
 
-    @BindView(R.id.retrofit_button)
-    TextView retrofitButton;
+        public static final String CV_INFO_FRAGMENT = "cv_info_fragment";
 
-    @BindView(R.id.retrofit_scrollview)
-    NestedScrollView scroll;
-
-    @BindView(R.id.first)
-    LinearLayout first;
-
-    @BindView(R.id.second)
-    LinearLayout second;
-
-    @BindView(R.id.third)
-    LinearLayout third;
-
-    MainPresenter mMainPresenter;
+        public static final String CONTACT_INFO_FRAGMENT = "contact_info_fragment";
+    }
 
     @Inject
     PostExecutionThread mPostExecutionThread;
 
+    @Inject
+    Navigator mNavigator;
+
+    BaseFragment mPrimarySelectedFragment;
+    BaseFragment mSecondarySelectedFragment;
+
+    MainPresenter mMainPresenter;
+
+    /**
+     * Initial page to be displayed.
+     */
+    InitPageType mInitPageType = InitPageType.PORTFOLIO;
+
+    @Override
+    protected PresenterFactory getPresenterFactory() {
+        return new MainPresenterFactory();
+    }
+
+    @Override
+    protected void onPresenterPrepared(BasePresenter presenter) {
+        mMainPresenter = (MainPresenter) presenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    /*
         // inflate the custom activity layout
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        android.view.View portfolioView =
-          layoutInflater.inflate(R.layout.portfolio_view, mMainContainer, true);
-        // add the custom layout of this activity to frame layout.
-//        mMainContainer.addView(portfolioView);
-
-        ButterKnife.bind(this);
-        ButterKnife.setDebug(true);
+        //        android.view.Vista portfolioView =
+        layoutInflater.inflate(R.layout.portfolio_view, mMainContainer, true);
+    */
 
         ((AndroidApplication) getApplication()).getAppComponent().inject(this);
+        mNavigator.init(getSupportFragmentManager());
 
-        init();
+        if (savedInstanceState != null) {
 
+            switch (mInitPageType) {
+
+                case CV:
+                    if (savedInstanceState.containsKey(Extra.CV_INFO_FRAGMENT)) {
+                        mPrimarySelectedFragment = (CvInfoFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.CV_INFO_FRAGMENT);
+                    }
+                    break;
+                case BLOG:
+                    if (savedInstanceState.containsKey(Extra.BLOG_LIST_FRAGMENT)) {
+                        mPrimarySelectedFragment = (BlogListFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.BLOG_LIST_FRAGMENT);
+                    }
+                    if (savedInstanceState.containsKey(Extra.BLOG_ENTRY_FRAGMENT)) {
+                        mSecondarySelectedFragment = (BlogEntryFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.BLOG_ENTRY_FRAGMENT);
+                    }
+                    break;
+                case CONTACT:
+                    if (savedInstanceState.containsKey(Extra.CONTACT_INFO_FRAGMENT)) {
+                        mPrimarySelectedFragment = (ContactInfoFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.CONTACT_INFO_FRAGMENT);
+                    }
+                    break;
+                case PORTFOLIO:
+                    if (savedInstanceState.containsKey(Extra.PORTFOLIO_LIST_FRAGMENT)) {
+                        mPrimarySelectedFragment = (PortfolioListFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.PORTFOLIO_LIST_FRAGMENT);
+                    }
+                    if (savedInstanceState.containsKey(Extra.PORTFOLIO_DETAIL_FRAGMENT)) {
+                        mSecondarySelectedFragment = (PortfolioDetailFragment) getSupportFragmentManager().
+                          getFragment(savedInstanceState, Extra.PORTFOLIO_DETAIL_FRAGMENT);
+                    }
+                default:
+                    break;
+            }
+        }
+
+        if (mPrimarySelectedFragment == null || (AndroidApplication.isDualPane()
+          && mSecondarySelectedFragment == null)) {
+            switch (mInitPageType) {
+
+                case CV:
+                    mPrimarySelectedFragment = mNavigator.createAndAddCvInfoFragment(this);
+                    //                mNavigator.createAndAddCvInfoFragment(this);
+                    break;
+                case BLOG:
+                    mPrimarySelectedFragment = mNavigator.createAndAddBlogListFragment(this);
+                    //                mNavigator.createAndAddBlogListFragment(this);
+                    //                if (mCurrentDetailFragment == null && AndroidApplication.isDualPane()) {
+                    //                    mNavigator.createAndAddBlogDetailFragment(this);
+                    //                }
+                    break;
+                case CONTACT:
+                    mPrimarySelectedFragment = mNavigator.createAndAddContactInfoFragment(this);
+                    //                mNavigator.createAndAddContactInfoFragment(this);
+                    break;
+                case PORTFOLIO:
+                    mPrimarySelectedFragment = mNavigator.createAndAddPortfolioListFragment(this);
+                    //                mNavigator.createAndAddPortfolioListFragment(this);
+                    //                if (mCurrentDetailFragment == null && AndroidApplication.isDualPane()) {
+                    //                    mNavigator.createAndAddPortfolioDetailFragment(this);
+                    //                }
+                default:
+                    break;
+            }
+            //        initViews();
+        }
     }
 
-    public void init() {
-
-        PortfolioRepositoryComponent portfolioRepositoryComponent =
-          ((AndroidApplication) getApplication()).getAppComponent()
-            .plusPortfolioRepositoryComponent(new PortfolioRepositoryModule());
-
-        PortfolioRepository portfolioRepository =
-          portfolioRepositoryComponent.providePortfolioRepository();
-
-        Timber.d("mPortfolioRepository: " + portfolioRepository);
-
-        mMainPresenter = new MainPresenterImpl(
-          ThreadExecutor.getInstance(),
-          MainThreadImpl.getInstance(),
-          this,
-          portfolioRepository);
-    }
+    //    public void initViews() {
+    //
+    //        mMainPresenter = new MainPresenterImpl(
+    //          ThreadExecutor.getInstance(),
+    //          MainThreadImpl.getInstance());
+    //    }
 
     @Override
-    public void showProgress() {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-    }
+        // Save fragment states.
+        switch (mInitPageType) {
 
-    @Override
-    public void hideProgress() {
-
-    }
-
-    @Override
-    public void showError(String message) {
-
+            case CV:
+                if (mPrimarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.CV_INFO_FRAGMENT, mPrimarySelectedFragment);
+                }
+                break;
+            case BLOG:
+                if (mPrimarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.BLOG_LIST_FRAGMENT, mPrimarySelectedFragment);
+                }
+                if (mSecondarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.BLOG_ENTRY_FRAGMENT, mSecondarySelectedFragment);
+                }
+                break;
+            case CONTACT:
+                if (mPrimarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.CONTACT_INFO_FRAGMENT, mPrimarySelectedFragment);
+                }
+                break;
+            case PORTFOLIO:
+                if (mPrimarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.PORTFOLIO_LIST_FRAGMENT, mPrimarySelectedFragment);
+                }
+                if (mSecondarySelectedFragment != null) {
+                    getSupportFragmentManager().putFragment(outState,
+                      Extra.PORTFOLIO_DETAIL_FRAGMENT, mSecondarySelectedFragment);
+                }
+            default:
+                break;
+        }
     }
 
     @Override
@@ -119,27 +209,18 @@ public class MainActivity extends DrawerActivity implements View {
     }
 
     @Override
-    @OnClick(R.id.retrofit_button)
-    public void clickOnGetData() {
-        mMainPresenter.retrofitClick();
+    public void showProgress() {
     }
 
     @Override
-    public void showPortfolios(Portfolio portfolio) {
-        retrofitTextVIew.setText(portfolio.getPortfolio().toString());
+    public void hideProgress() {
+    }
 
-        ((TextView) first.findViewById(R.id.project_name))
-          .setText(portfolio.getPortfolio().get(0).getProjectTitle());
-        ((TextView) first.findViewById(R.id.project_desc))
-          .setText(portfolio.getPortfolio().get(0).getProjectDescription());
-        ((TextView) first.findViewById(R.id.project_info))
-          .setText(portfolio.getPortfolio().get(0).getProjectInfo());
+    @Override
+    public void showError(String message) {
+    }
 
-        ((TextView) second.findViewById(R.id.project_name))
-          .setText(portfolio.getPortfolio().get(1).getProjectTitle());
-        ((TextView) second.findViewById(R.id.project_desc))
-          .setText(portfolio.getPortfolio().get(1).getProjectDescription());
-        ((TextView) second.findViewById(R.id.project_info))
-          .setText(portfolio.getPortfolio().get(1).getProjectInfo());
+    @Override
+    public void showError(int messageResId, int iconResId) {
     }
 }

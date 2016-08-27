@@ -1,4 +1,4 @@
-package com.tomaschlapek.portfolio.interactor;
+package com.tomaschlapek.portfolio.subscriber;
 
 /**
  * Created by tomaschlapek on 22/7/16.

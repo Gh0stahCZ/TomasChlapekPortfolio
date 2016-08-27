@@ -8,9 +8,11 @@ import com.tomaschlapek.portfolio.core.modules.AppModule;
 import com.tomaschlapek.portfolio.core.modules.CustomModule;
 import com.tomaschlapek.portfolio.core.modules.MainActivityModule;
 import com.tomaschlapek.portfolio.core.modules.NetModule;
-import com.tomaschlapek.portfolio.core.modules.PortfolioRepositoryModule;
+import com.tomaschlapek.portfolio.core.modules.PortfolioModule;
 import com.tomaschlapek.portfolio.navigation.Navigator;
+import com.tomaschlapek.portfolio.presentation.ui.activities.DrawerActivity;
 import com.tomaschlapek.portfolio.presentation.ui.activities.MainActivity;
+import com.tomaschlapek.portfolio.presentation.ui.fragments.BaseFragment;
 
 import javax.inject.Singleton;
 
@@ -28,15 +30,19 @@ public interface AppComponent {
 
   void inject(MainActivity activity);
 
+  void inject(DrawerActivity activity);
+
   Application provideApplication();
 
   Context provideContext();
 
   Navigator provideNavigator();
 
+  Navigator provideToolbar();
+
   CustomComponent plusCustom(CustomModule module);
 
-  PortfolioRepositoryComponent plusPortfolioRepositoryComponent(PortfolioRepositoryModule module);
+  PortfolioComponent plusPortfolioComponent(PortfolioModule module);
 
   Retrofit provideRetrofit();
 

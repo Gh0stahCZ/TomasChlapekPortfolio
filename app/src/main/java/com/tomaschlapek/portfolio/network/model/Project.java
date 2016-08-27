@@ -4,13 +4,19 @@ package com.tomaschlapek.portfolio.network.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+import org.parceler.ParcelConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
+@Parcel(Serialization.BEAN)
 public class Project {
+
 
   @SerializedName("project_title")
   @Expose
@@ -47,7 +53,7 @@ public class Project {
   private String startTime;
   @SerializedName("end_time")
   @Expose
-  private Object endTime;
+  private String endTime;
   @SerializedName("in_progress")
   @Expose
   private Boolean inProgress;
@@ -61,7 +67,8 @@ public class Project {
   @Expose
   private String lastUpdate;
 
-  public Project(String category, Object endTime, String googlePlayUrl, Boolean inProgress,
+  @ParcelConstructor
+  public Project(String category, String endTime, String googlePlayUrl, Boolean inProgress,
     String lastUpdate, String logoUrl, String position,
     ProjectCoop projectCoop, String projectDescription, String projectImageUrl,
     String projectInfo, String projectTitle,
@@ -242,14 +249,14 @@ public class Project {
   /**
    * @return The endTime
    */
-  public Object getEndTime() {
+  public String getEndTime() {
     return endTime;
   }
 
   /**
    * @param endTime The end_time
    */
-  public void setEndTime(Object endTime) {
+  public void setEndTime(String endTime) {
     this.endTime = endTime;
   }
 

@@ -1,17 +1,13 @@
 package com.tomaschlapek.portfolio.presentation.presenters;
 
-import com.tomaschlapek.portfolio.network.model.Portfolio;
+import com.tomaschlapek.portfolio.presentation.presenters.MainPresenter.Vista;
 import com.tomaschlapek.portfolio.presentation.presenters.base.BasePresenter;
-import com.tomaschlapek.portfolio.presentation.ui.BaseView;
+import com.tomaschlapek.portfolio.presentation.ui.BaseVista;
 
-public interface MainPresenter extends BasePresenter {
+public interface MainPresenter extends BasePresenter<Vista> {
 
-    interface View extends BaseView {
-        void clickOnGetData();
+    interface Vista extends BaseVista {
 
-         void showPortfolios(Portfolio portfolio);
     }
-
-    void retrofitClick();
 
 }

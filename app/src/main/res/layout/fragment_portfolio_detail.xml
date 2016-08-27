@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+  >
+  <data>
+    <variable
+      name="projectDetail"
+      type="com.tomaschlapek.portfolio.network.model.Project"
+      />
+    <import
+      type="com.tomaschlapek.portfolio.helper.ImageHelper"/>
+  </data>
+
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/backgroundColor"
+    >
+
+    <ImageView
+      android:id="@+id/item_project_icon"
+      android:layout_width="@dimen/icon_width"
+      android:layout_height="@dimen/icon_height"
+      app:logoUrl="@{dinosaur.logoUrl}"
+      app:errorImage="@{@drawable/ic_sentiment_very_dissatisfied_black_48dp}"
+      />
+
+    <TextView
+      android:id="@+id/portfolio_detail_name_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:text="Portfolio detail"
+      />
+
+  </LinearLayout>
+</layout>

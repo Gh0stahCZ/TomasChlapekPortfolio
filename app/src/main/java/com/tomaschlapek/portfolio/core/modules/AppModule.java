@@ -6,6 +6,7 @@ import android.content.Context;
 import com.tomaschlapek.portfolio.core.executor.PostExecutionThread;
 import com.tomaschlapek.portfolio.core.executor.UIThread;
 import com.tomaschlapek.portfolio.navigation.Navigator;
+import com.tomaschlapek.portfolio.util.ToolbarDelegate;
 
 import javax.inject.Singleton;
 
@@ -42,8 +43,14 @@ public class AppModule {
 
   @Provides
   @Singleton
-  Navigator provideNavigator() {
-    return new Navigator();
+  Navigator provideNavigator(Context context) {
+    return new Navigator(context);
+  }
+
+  @Provides
+  @Singleton
+  ToolbarDelegate provideToolbar() {
+    return new ToolbarDelegate();
   }
 
 //  @Provides

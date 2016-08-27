@@ -4,43 +4,47 @@ package com.tomaschlapek.portfolio.network.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
+@Parcel(Serialization.BEAN)
 public class Video {
 
   @SerializedName("video_title")
   @Expose
-  private Object videoTitle;
+  private String videoTitle;
   @SerializedName("video_url")
   @Expose
-  private Object videoUrl;
+  private String videoUrl;
 
   /**
    * @return The videoTitle
    */
-  public Object getVideoTitle() {
+  public String getVideoTitle() {
     return videoTitle;
   }
 
   /**
    * @param videoTitle The video_title
    */
-  public void setVideoTitle(Object videoTitle) {
+  public void setVideoTitle(String videoTitle) {
     this.videoTitle = videoTitle;
   }
 
   /**
    * @return The videoUrl
    */
-  public Object getVideoUrl() {
+  public String getVideoUrl() {
     return videoUrl;
   }
 
   /**
    * @param videoUrl The video_url
    */
-  public void setVideoUrl(Object videoUrl) {
+  public void setVideoUrl(String videoUrl) {
     this.videoUrl = videoUrl;
   }
 }

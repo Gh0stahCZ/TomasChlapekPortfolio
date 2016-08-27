@@ -32,6 +32,18 @@
     <dimen name="toolbar_icon_margin_large">12dp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
 
+    <dimen name="master_fragment_width">300dp</dimen>
+
+    <!-- Error -->
+    <dimen name="icon_width">34dp</dimen>
+    <dimen name="icon_height">34dp</dimen>
+
+    <dimen name="indicator_width">46dp</dimen>
+    <dimen name="indicator_height">46dp</dimen>
+
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_shift">30dp</dimen>
 
 
 </resources>

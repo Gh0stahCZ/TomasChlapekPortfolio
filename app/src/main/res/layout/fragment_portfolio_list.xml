@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/backgroundColor"
+                                                 tools:context=".presentation.ui.activities.MainActivity"
+  >
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+
+    <Button
+      android:id="@+id/retrofit_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Get data from server"
+      android:visibility="gone"
+      />
+
+    <TextView
+      android:id="@+id/retrofit_output"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="gone"
+      />
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+      <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/portfolio_list_swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <android.support.v7.widget.RecyclerView
+          android:id="@+id/portfolio_list_recycler_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:listitem="@layout/item_portfolio_list_adapter_extended"
+          />
+
+
+      </android.support.v4.widget.SwipeRefreshLayout>
+
+      <include
+        layout="@layout/layout_error_container"/>
+    </FrameLayout>
+
+  </LinearLayout>
+
+
+  <!--<me.henrytao.smoothappbarlayout.SmoothAppBarLayout-->
+  <!--android:id="@+id/smooth_app_bar_layout"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--&gt;-->
+
+
+  <!--</me.henrytao.smoothappbarlayout.SmoothAppBarLayout>-->
+</android.support.design.widget.CoordinatorLayout>

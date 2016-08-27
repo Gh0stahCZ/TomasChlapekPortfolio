@@ -5,7 +5,7 @@ package com.tomaschlapek.portfolio.presentation.ui;
  * This interface represents a basic view. All views should implement these common methods.
  * </p>
  */
-public interface BaseView {
+public interface BaseVista {
 
     /**
      * This is a general method used for showing some kind of progress during a background task. For example, this
@@ -24,4 +24,11 @@ public interface BaseView {
      * @param message The error message to be displayed.
      */
     void showError(String message);
+
+    /**
+     * This method is used for showing error messages on the UI.
+     *
+     * @param messageResId The error message resource ID to be displayed.
+     */
+    void showError(int messageResId, int iconResId);
 }

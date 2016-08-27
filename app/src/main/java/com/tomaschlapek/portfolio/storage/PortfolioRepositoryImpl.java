@@ -39,36 +39,7 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
     return Observable
       .concat(getPortfolioFromCache(), getPortfolioFromNetwork())
       .first(data -> data != null);
-    //.first(data -> data.isUpToDate());
 
-
-
-    //    try {
-    //      Project project = call.execute().body();
-    //      return project;
-    //    } catch (IOException e) {
-    //      Timber.e("Failure: " + e.getLocalizedMessage());
-    //      e.printStackTrace();
-    //      return null;
-    //    }
-
-    //    portfolioObservable.enqueue(new Callback<Portfolio>() {
-    //      @Override
-    //      public void onResponse(Call<Portfolio> call, Response<Portfolio> response) {
-    //        if (response.isSuccessful()) {
-    //          Timber.d("Successful response");
-    //          portfolioCallback.response(response.body());
-    //        } else {
-    //          Timber.e("Unsuccessful response");
-    //        }
-    //      }
-    //
-    //      @Override
-    //      public void onFailure(Call<Portfolio> call, Throwable t) {
-    //        Timber.e("Failure");
-    //      }
-    //    });
-    //    return null;
   }
 
   public Observable<Portfolio> getPortfolioFromNetwork() {

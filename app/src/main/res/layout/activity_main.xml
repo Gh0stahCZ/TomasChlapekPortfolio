@@ -1,27 +1,56 @@
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
+  android:orientation="vertical"
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/main_drawer_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:fitsSystemWindows="true"
-    >
-  <FrameLayout
-    android:id="@+id/main_content"
+  >
+
+  <android.support.v4.widget.DrawerLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    />
-  <android.support.design.widget.NavigationView
-    android:id="@+id/main_navigation"
-    android:layout_width="300dp"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:background="#fff"
-    android:fitsSystemWindows="true"
-    app:insetForeground="#4000"
-    app:headerLayout="@layout/main_drawer_header"
-    />
-</android.support.v4.widget.DrawerLayout>
+    android:id="@+id/main_drawer_layout"
+    >
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+      <include
+        layout="@layout/layout_toolbar"/>
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <FrameLayout
+          android:id="@+id/master_fragment_container"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          />
+        <FrameLayout
+          android:id="@+id/detail_fragment_container"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          />
+      </FrameLayout>
+    </LinearLayout>
+    <android.support.design.widget.NavigationView
+      android:id="@+id/main_navigation"
+      android:layout_width="300dp"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      android:background="#fff"
+      android:fitsSystemWindows="true"
+      app:insetForeground="#4000"
+      app:menu="@menu/drawer_menu"
+      app:headerLayout="@layout/main_drawer_header"
+      />
+
+  </android.support.v4.widget.DrawerLayout>
+
+
+</LinearLayout>
 
 
 

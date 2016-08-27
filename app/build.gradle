@@ -19,20 +19,20 @@ repositories {
 }
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.1"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.0"
 
 
   defaultConfig {
     applicationId "com.tomaschlapek.portfolio"
     minSdkVersion 15
-    targetSdkVersion 23
+    targetSdkVersion 24
     versionCode 1
-    versionName "1.0"
+    versionName "1.1"
 
     // Enabling multidex support.
     multiDexEnabled true
-
+    dataBinding.enabled = true
   }
   buildTypes {
     release {
@@ -46,12 +46,36 @@ android {
     }
   }
 
+  // Compile options to allow retro lambda
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
-}
 
+  // Max JVM heap size is 4GB.
+  dexOptions {
+    javaMaxHeapSize "4g"
+  }
+
+  // Package options to avoid an error with file duplication across libraries
+  packagingOptions {
+    exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+    exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+
+    exclude 'META-INF/DEPENDENCIES.txt'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/dependencies.txt'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/license.txt'
+    exclude 'META-INF/LGPL2.1'
+    exclude 'META-INF/NOTICE.txt'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/notice.txt'
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+  }
+
+}
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -59,8 +83,8 @@ dependencies {
   compile 'com.google.firebase:firebase-messaging:9.0.0'
 
   // general
-  compile 'com.android.support:appcompat-v7:23.4.0'
-  compile 'com.android.support:design:23.1.1'
+  compile 'com.android.support:appcompat-v7:24.1.1'
+  compile 'com.android.support:design:24.1.1'
   compile 'com.jakewharton.timber:timber:4.1.0'
 
   //dagger
@@ -70,6 +94,7 @@ dependencies {
 
   // ui
   compile "me.henrytao:smooth-app-bar-layout:23.1.1"
+  compile 'com.android.support:cardview-v7:23.4.0'
 
   // network
   compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -92,6 +117,9 @@ dependencies {
     transitive = true;
   }
 
+  // androidviewmodel
+  compile 'eu.inloop:androidviewmodel:1.0.0'
+
   //stetho
   compile 'com.facebook.stetho:stetho:1.3.1'
   compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
@@ -100,7 +128,10 @@ dependencies {
   compile 'com.squareup.retrofit2:retrofit:2.1.0'
   compile 'com.squareup.retrofit2:converter-gson:2.1.0'
   compile 'com.google.code.gson:gson:2.7'
-  compile 'org.parceler:parceler:0.2.13'
+
+  // parceler
+  compile 'org.parceler:parceler-api:1.1.5'
+  apt 'org.parceler:parceler:1.1.5'
 
   compile 'com.squareup.okhttp3:okhttp:3.3.1'
   compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
@@ -109,11 +140,9 @@ dependencies {
   compile 'com.squareup.picasso:picasso:2.5.2'
   compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
 
-  // dart and henson (easy extras handling)
+  // dart (easy extras handling)
   compile 'com.f2prateek.dart:dart:2.0.0'
   provided 'com.f2prateek.dart:dart-processor:2.0.0'
-  compile 'com.f2prateek.dart:henson:2.0.0'
-  provided 'com.f2prateek.dart:henson-processor:2.0.0'
 
   // tests
   testCompile 'junit:junit:4.12'
@@ -121,10 +150,16 @@ dependencies {
 
   // multidex support
   compile 'com.android.support:multidex:1.0.0'
+  compile 'com.android.support:multidex:1.0.0'
 
   // butterknife
-  compile 'com.jakewharton:butterknife:8.1.0'
   apt 'com.jakewharton:butterknife-compiler:8.1.0'
+  compile 'com.jakewharton:butterknife:8.1.0'
+
+  // autofactory - google
+  compile 'com.google.auto.factory:auto-factory:1.0-beta3'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

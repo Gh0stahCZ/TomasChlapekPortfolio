@@ -4,9 +4,13 @@ package com.tomaschlapek.portfolio.network.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+import org.parceler.Parcel.Serialization;
+
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
+@Parcel(Serialization.BEAN)
 public class ProjectCoop {
 
   @SerializedName("coop_company")

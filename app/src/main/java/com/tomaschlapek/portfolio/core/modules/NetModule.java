@@ -15,7 +15,6 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -74,11 +73,13 @@ public class NetModule {
     Cache cache = new Cache(context.getCacheDir(), cacheSize);
 
     OkHttpClient.Builder builder = new OkHttpClient.Builder();
-    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+    //    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+    //
+    //    // Track headers and requests
+    //    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    //    builder.networkInterceptors().add(httpLoggingInterceptor);
 
-    // Track headers and requests
-    httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    builder.networkInterceptors().add(httpLoggingInterceptor);
+//    builder.networkInterceptors().add(new TimeoutInterceptor());
     builder.cache(cache);
     return builder.build();
   }

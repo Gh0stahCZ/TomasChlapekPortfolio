@@ -16,7 +16,79 @@ import timber.log.Timber.DebugTree;
 
 public class AndroidApplication extends MultiDexApplication {
 
-    private AppComponent appComponent;
+   /* Private Static Attributes *******************************************************************/
+
+    private static AppComponent appComponent;
+
+    /**
+     * Indicates that the application is initializes.
+     */
+    private static boolean sIsInitialized;
+
+    /**
+     * Indicates that the application went to background.
+     */
+    private static boolean sIsInBackground;
+
+    /**
+     * Indicates that the application is in dual-pane mode.
+     */
+    private static boolean sIsDualPane;
+
+    /**
+     * Indicates that the application displays two columns in portrait.
+     */
+    private static boolean sHasTwoColumnsInPortrait;
+
+    /* Public Static Methods **********************************************************************/
+
+    /**
+     * Indicates that the application is initializes.
+     */
+    public static boolean isInitialized() {
+        return sIsInitialized;
+    }
+
+    /**
+     * Marks the application as initialized.
+     */
+    public static void setInitialized(boolean isInitialized) {
+        sIsInitialized = isInitialized;
+    }
+
+    /**
+     * Indicates that the application went to background.
+     */
+    public static boolean isInBackground() {
+        return sIsInBackground;
+    }
+
+    /**
+     * Marks if the application went to background.
+     */
+    public static void setInBackground(boolean isInBackground) {
+        sIsInBackground = isInBackground;
+    }
+
+    /**
+     * Indicates that the application is in dual-pane mode.
+     */
+    public static boolean isDualPane() {
+        return sIsDualPane;
+    }
+
+    /**
+     * Indicates that the application displays two columns in portrait.
+     */
+    public static boolean hasTwoColumnsInPortrait() {
+        return sHasTwoColumnsInPortrait;
+    }
+
+    public static AppComponent getAppComponent() {
+        return appComponent;
+    }
+
+    /* Public Methods *****************************************************************************/
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -44,6 +116,13 @@ public class AndroidApplication extends MultiDexApplication {
 
         //        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this))
         //          .storageModule(new CustomModule(this)).build();
+
+        init();
+    }
+
+    public void init() {
+        sIsInitialized = false;
+        sIsInBackground = true;
     }
 
     public void initStetho() {
@@ -65,9 +144,5 @@ public class AndroidApplication extends MultiDexApplication {
 
         // Initialize Stetho with the Initializer
         Stetho.initialize(initializer);
-    }
-
-    public AppComponent getAppComponent() {
-        return this.appComponent;
     }
 }
