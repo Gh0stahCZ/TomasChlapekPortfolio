@@ -43,6 +43,10 @@ public class ProjectViewHolderExtended extends ProjectViewHolder {
     mBinding.setDinosaur(project);
   }
 
+  public ItemPortfolioListAdapterExtendedBinding getBinding() {
+    return mBinding;
+  }
+
   public static void processLogoIcon(ImageView view, String logoUrl) {
     ImageHelper.processLogoIcon(view, logoUrl, -1);
   }

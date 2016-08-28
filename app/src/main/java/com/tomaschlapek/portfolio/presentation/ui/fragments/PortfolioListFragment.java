@@ -55,6 +55,9 @@ public class PortfolioListFragment extends BaseFragment implements Vista {
   @BindView(R.id.error_icon)
   ImageView errorIcon;
 
+  @BindView(R.id.omg_text_view)
+  TextView omgText;
+
   PortfolioListAdapter mPortfolioListAdapter;
 
   PortfolioListPresenter mPortfolioListPresenter;
@@ -168,10 +171,10 @@ public class PortfolioListFragment extends BaseFragment implements Vista {
   }
 
   @Override
-  public void onProjectClick(Project project) {
+  public void onProjectClick(Project project, View viewForTransition) {
     AndroidApplication.getAppComponent().provideNavigator()
       .createAndAddPortfolioDetailFragment(getActivity(), project,
-        AndroidApplication.isDualPane() ? false : true);
+        AndroidApplication.isDualPane() ? false : true, omgText);
   }
 
   @Override

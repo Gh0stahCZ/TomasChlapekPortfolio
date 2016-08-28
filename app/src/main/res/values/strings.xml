@@ -9,7 +9,7 @@
 
 
   <string name="button.retry">Retry</string>
-  <string name="error.no_internet_connection">No intenert connection</string>
+  <string name="error.no_internet_connection">No internet connection</string>
   <string name="error.unexpect">Something went wrong during whilst retieving portfolio.Please try again...</string>
 
 </resources>

@@ -37,7 +37,6 @@ public class DrawerActivity extends BaseActivity {
 
   protected NavigationView mNavigationView;
 
-
   /**
    * Indicates if the navigation drawer is opened.
    */
@@ -115,7 +114,16 @@ public class DrawerActivity extends BaseActivity {
     outState.putBoolean(Extra.DRAWER_LOCKED, mDrawerLocked);
   }
 
-    /* Public Methods ***************************************************************************/
+  @Override
+  public void onBackPressed() {
+    if (isDrawerOpened()) {
+      setDrawerOpened(false);
+    } else {
+      super.onBackPressed();
+    }
+  }
+
+  /* Public Methods ***************************************************************************/
 
   /**
    * Indicates whether this activity has drawer.

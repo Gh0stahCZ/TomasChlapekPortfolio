@@ -5,14 +5,15 @@ import android.content.Context;
 
 import com.tomaschlapek.portfolio.core.executor.PostExecutionThread;
 import com.tomaschlapek.portfolio.core.modules.AppModule;
+import com.tomaschlapek.portfolio.core.modules.ContactInfoModule;
 import com.tomaschlapek.portfolio.core.modules.CustomModule;
+import com.tomaschlapek.portfolio.core.modules.CvInfoModule;
 import com.tomaschlapek.portfolio.core.modules.MainActivityModule;
 import com.tomaschlapek.portfolio.core.modules.NetModule;
 import com.tomaschlapek.portfolio.core.modules.PortfolioModule;
 import com.tomaschlapek.portfolio.navigation.Navigator;
 import com.tomaschlapek.portfolio.presentation.ui.activities.DrawerActivity;
 import com.tomaschlapek.portfolio.presentation.ui.activities.MainActivity;
-import com.tomaschlapek.portfolio.presentation.ui.fragments.BaseFragment;
 
 import javax.inject.Singleton;
 
@@ -43,6 +44,10 @@ public interface AppComponent {
   CustomComponent plusCustom(CustomModule module);
 
   PortfolioComponent plusPortfolioComponent(PortfolioModule module);
+
+  CvInfoComponent plusCvInfoComponent(CvInfoModule module);
+
+  ContactInfoComponent plusContactInfoComponent(ContactInfoModule module);
 
   Retrofit provideRetrofit();
 

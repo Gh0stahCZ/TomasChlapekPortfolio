@@ -123,6 +123,8 @@ public class AndroidApplication extends MultiDexApplication {
     public void init() {
         sIsInitialized = false;
         sIsInBackground = true;
+        sIsDualPane = getResources().getBoolean(R.bool.is_dual_pane);
+        sHasTwoColumnsInPortrait = getResources().getBoolean(R.bool.has_two_columns_in_portrait);
     }
 
     public void initStetho() {

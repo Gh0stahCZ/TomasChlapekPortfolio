@@ -3,4 +3,7 @@
   <string name="shared_preference_name">tomas_chlapek_portfolio</string>
   <string name="base_url_release">http://tomaschlapek.com/api/</string>
   <string name="base_url_debug">http://private-81ebd5-tomaschlapek.apiary-mock.com/</string>
+
+  <string name="transition.project.logo">transition_project_logo</string>
+
 </resources>

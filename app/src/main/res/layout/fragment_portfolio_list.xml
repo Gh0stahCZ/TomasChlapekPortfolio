@@ -15,6 +15,16 @@
     android:gravity="center"
     >
 
+    <TextView
+      android:id="@+id/omg_text_view"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/margin_medium"
+      android:text="! OMG, OMG, OMG !"
+      android:transitionName="omg"
+      />
+
+
     <Button
       android:id="@+id/retrofit_button"
       android:layout_width="wrap_content"
@@ -48,6 +58,8 @@
 
 
       </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
       <include
         layout="@layout/layout_error_container"/>

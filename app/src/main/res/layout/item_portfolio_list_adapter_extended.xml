@@ -39,6 +39,7 @@
           android:layout_height="@dimen/icon_height"
           app:logoUrl="@{dinosaur.logoUrl}"
           app:errorImage="@{@drawable/ic_sentiment_very_dissatisfied_black_48dp}"
+          android:transitionName="@string/transition.project.logo"
           />
 
         <TextView

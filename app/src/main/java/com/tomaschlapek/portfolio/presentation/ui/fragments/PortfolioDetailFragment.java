@@ -1,5 +1,6 @@
 package com.tomaschlapek.portfolio.presentation.ui.fragments;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.f2prateek.dart.InjectExtra;
 import com.tomaschlapek.portfolio.AndroidApplication;
 import com.tomaschlapek.portfolio.R;
 import com.tomaschlapek.portfolio.core.modules.PortfolioModule;
+import com.tomaschlapek.portfolio.databinding.FragmentPortfolioDetailBinding;
 import com.tomaschlapek.portfolio.domain.model.Argument;
 import com.tomaschlapek.portfolio.domain.repository.PortfolioRepository;
 import com.tomaschlapek.portfolio.factory.PresenterFactory;
@@ -82,7 +84,13 @@ public class PortfolioDetailFragment extends BaseFragment implements Vista {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
     @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_portfolio_detail, container, false);
+//    View view = inflater.inflate(R.layout.fragment_portfolio_detail, container, false);
+
+    FragmentPortfolioDetailBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_portfolio_detail, container, false);
+    View view = binding.getRoot();
+    binding.setProjectDetail(mProject);
+
+
     ButterKnife.bind(this, view);
 
     init();

@@ -1,5 +1,7 @@
 package com.tomaschlapek.portfolio.presentation.presenters;
 
+import android.view.View;
+
 import com.tomaschlapek.portfolio.network.model.Portfolio;
 import com.tomaschlapek.portfolio.network.model.Project;
 import com.tomaschlapek.portfolio.presentation.presenters.PortfolioListPresenter.Vista;
@@ -12,7 +14,7 @@ public interface PortfolioListPresenter extends BasePresenter<Vista> {
 
     void showPortfolios(Portfolio portfolio);
 
-    void onProjectClick(Project project);
+    void onProjectClick(Project project, View viewForTransition);
 
   }
 

@@ -3,7 +3,11 @@ package com.tomaschlapek.portfolio.navigation;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.View;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +18,7 @@ import com.tomaschlapek.portfolio.AndroidApplication;
 import com.tomaschlapek.portfolio.R;
 import com.tomaschlapek.portfolio.network.model.Project;
 import com.tomaschlapek.portfolio.presentation.ui.activities.BaseActivity;
+import com.tomaschlapek.portfolio.presentation.ui.activities.MainActivity;
 import com.tomaschlapek.portfolio.presentation.ui.fragments.BlogEntryFragment;
 import com.tomaschlapek.portfolio.presentation.ui.fragments.BlogListFragment;
 import com.tomaschlapek.portfolio.presentation.ui.fragments.ContactInfoFragment;
@@ -54,32 +59,32 @@ public class Navigator {
   /**
    * Holds reference to currently displayed portfolio list fragment.
    */
-  private static PortfolioListFragment sCurrentPortfolioListFragment;
+  private PortfolioListFragment sCurrentPortfolioListFragment;
 
   /**
    * Holds reference to currently displayed portfolio detail fragment.
    */
-  private static PortfolioDetailFragment sCurrentPortfolioDetailFragment;
+  private PortfolioDetailFragment sCurrentPortfolioDetailFragment;
 
   /**
    * Holds reference to currently displayed blog list detail fragment.
    */
-  private static BlogListFragment sCurrentBlogListFragment;
+  private BlogListFragment sCurrentBlogListFragment;
 
   /**
    * Holds reference to currently displayed blog detail fragment.
    */
-  private static BlogEntryFragment sCurrentBlogEntryFragment;
+  private BlogEntryFragment sCurrentBlogEntryFragment;
 
   /**
    * Holds reference to currently displayed contact fragment.
    */
-  private static ContactInfoFragment sCurrentContactInfoFragment;
+  private ContactInfoFragment sCurrentContactInfoFragment;
 
   /**
    * Holds reference to currently displayed CV fragment.
    */
-  private static CvInfoFragment sCurrentCvInfoFragment;
+  private CvInfoFragment sCurrentCvInfoFragment;
 
   /**
    * Indicates if the back call is blocked.
@@ -112,7 +117,7 @@ public class Navigator {
       // We have only one fragment left so we would close the application with this back
       showExitDialog();
     } else {
-      AndroidApplication.getAppComponent().provideNavigator().navigateBack(sCurrentActivity);
+      navigateBack(sCurrentActivity);
     }
   }
 
@@ -128,14 +133,17 @@ public class Navigator {
   }
 
   public PortfolioDetailFragment createAndAddPortfolioDetailFragment(FragmentActivity activity,
-    Project project, boolean addToBackStack) {
+    Project project, boolean addToBackStack, View viewForTransition) {
     Timber.d("createAndAddPortfolioDetailFragment()");
 
     sCurrentPortfolioDetailFragment = PortfolioDetailFragment.newInstance(project);
 
+    //    replaceFragment(beginTransaction(activity), R.id.detail_fragment_container,
+    //      sCurrentPortfolioDetailFragment, addToBackStack, R.anim.slide_in_right,
+    //      R.anim.slide_out_right);
     replaceFragment(beginTransaction(activity), R.id.detail_fragment_container,
-      sCurrentPortfolioDetailFragment, addToBackStack, R.anim.slide_in_right,
-      R.anim.slide_out_right);
+      sCurrentPortfolioDetailFragment, addToBackStack, sCurrentPortfolioListFragment,
+      viewForTransition);
 
     return sCurrentPortfolioDetailFragment;
   }
@@ -158,7 +166,8 @@ public class Navigator {
     sCurrentBlogEntryFragment = BlogEntryFragment.newInstance();
 
     replaceFragment(beginTransaction(activity), R.id.detail_fragment_container,
-      sCurrentBlogEntryFragment, addToBackStack, R.anim.slide_in_right, R.anim.slide_out_right);
+      sCurrentBlogEntryFragment, addToBackStack, R.anim.slide_in_right, R.anim.slide_out_right,
+      null);
 
     return sCurrentBlogEntryFragment;
   }
@@ -210,11 +219,105 @@ public class Navigator {
   public void navigateBack(Activity baseActivity) {
 
     if (mFragmentManager.getBackStackEntryCount() == 0) {
+
+      // By default finish current activity.
       // We can finish the base activity since we have no other fragments.
       baseActivity.finish();
+
     } else {
-      mFragmentManager.popBackStackImmediate();
+
+      // Check if not blocked.
+      if (sBackBlocked) {
+        Timber.d("back(): back is being blocked");
+        return;
+      }
+
+      // Close portfolio if opened.
+      if ((sCurrentActivity instanceof MainActivity) && ((sCurrentPortfolioListFragment != null)
+        || (sCurrentPortfolioDetailFragment != null))) {
+        closePortfolioFragments();
+      }
+
+      // Close blog if opened.
+      if ((sCurrentActivity instanceof MainActivity) && ((sCurrentBlogListFragment != null) || (
+        sCurrentBlogEntryFragment != null))) {
+        closeBlogFragments();
+      }
+
+      // Close CV info if opened.
+      if ((sCurrentActivity instanceof MainActivity) && (sCurrentCvInfoFragment != null)) {
+        closeCvInfoFragment();
+      }
+
+      // Close contact info if opened.
+      if ((sCurrentActivity instanceof MainActivity) && (sCurrentContactInfoFragment != null)) {
+        closeContactInfoFragment();
+      }
+
     }
+  }
+
+  public void closePortfolioFragments() {
+    Timber.d("closePortfolioListFragment()");
+
+    // Close portfolio detail fragment.
+    if (sCurrentPortfolioDetailFragment != null) {
+      sCurrentPortfolioDetailFragment = null;
+      popFragmentFromBackStack();
+
+      if (!AndroidApplication.isDualPane()) {
+        return;
+      }
+    }
+
+    // Close portfolio list fragment.
+    if (sCurrentPortfolioListFragment != null) {
+      sCurrentPortfolioListFragment = null;
+      popFragmentFromBackStack();
+    }
+  }
+
+  public void closeBlogFragments() {
+    Timber.d("closeBlogListFragment()");
+
+    // Close blog detail fragment.
+    if (sCurrentBlogEntryFragment != null) {
+      sCurrentBlogEntryFragment = null;
+      popFragmentFromBackStack();
+
+      // If DualPane is not used and detail fragment was destroyed, return.
+      if (AndroidApplication.isDualPane()) {
+        return;
+      }
+    }
+
+    // Close blog list fragment.
+    if (sCurrentBlogListFragment != null) {
+      sCurrentBlogListFragment = null;
+      popFragmentFromBackStack();
+    }
+  }
+
+  public boolean closeCvInfoFragment() {
+    Timber.d("closeCvInfoFragment()");
+
+    // Close cv fragment.
+    if (sCurrentCvInfoFragment != null) {
+      sCurrentCvInfoFragment = null;
+    }
+
+    return popFragmentFromBackStack();
+  }
+
+  public boolean closeContactInfoFragment() {
+    Timber.d("closeContactInfoFragment()");
+
+    // Close contact fragment.
+    if (sCurrentContactInfoFragment != null) {
+      sCurrentContactInfoFragment = null;
+    }
+
+    return popFragmentFromBackStack();
   }
 
   /**
@@ -324,19 +427,47 @@ public class Navigator {
   }
 
   /**
+   * Replaces fragment in certain container with custom transition.
+   */
+  private void replaceFragment(FragmentTransaction transaction,
+    int containerId, Fragment fragment, boolean addToBackStack, Fragment sCurrentFragment,
+    View viewForTransition) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+      // Declare transitions.
+      Transition changeTransform = TransitionInflater.from(mContext).
+        inflateTransition(R.transition.change_image_transform);
+      Transition explodeTransform = TransitionInflater.from(mContext).
+        inflateTransition(android.R.transition.explode);
+
+      // Init first fragment transition.
+      sCurrentFragment.setSharedElementReturnTransition(changeTransform);
+      sCurrentFragment.setExitTransition(explodeTransform);
+
+      // Init second fragment transition.
+      fragment.setSharedElementEnterTransition(changeTransform);
+      fragment.setEnterTransition(explodeTransform);
+    }
+
+    replaceFragment(transaction, containerId, fragment, addToBackStack, -1, -1, viewForTransition);
+  }
+
+  /**
    * Replaces fragment in certain container.
    */
   private void replaceFragment(FragmentTransaction transaction,
     int containerId, Fragment fragment, boolean addToBackStack) {
 
-    replaceFragment(transaction, containerId, fragment, addToBackStack, -1, -1);
+    replaceFragment(transaction, containerId, fragment, addToBackStack, -1, -1, null);
   }
 
   /**
    * Replaces fragment in certain container with custom animation.
    */
   private void replaceFragment(FragmentTransaction transaction,
-    int containerId, Fragment fragment, boolean addToBackStack, int enterAnim, int exitAnim) {
+    int containerId, Fragment fragment, boolean addToBackStack, int enterAnim, int exitAnim,
+    View viewForTransition) {
 
     // Set transaction animations if passed.
     if ((enterAnim >= 0) && (exitAnim >= 0)) {
@@ -349,6 +480,14 @@ public class Navigator {
     // Add to back-stack.
     if (addToBackStack) {
       transaction.addToBackStack(null);
+    }
+
+    if (viewForTransition != null) {
+      // Add logo to transition.
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        transaction.addSharedElement(viewForTransition,
+          viewForTransition.getTransitionName());
+      }
     }
 
     transaction.commitAllowingStateLoss();

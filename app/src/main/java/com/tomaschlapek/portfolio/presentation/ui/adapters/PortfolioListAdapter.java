@@ -1,14 +1,19 @@
 package com.tomaschlapek.portfolio.presentation.ui.adapters;
 
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.tomaschlapek.portfolio.AndroidApplication;
+import com.tomaschlapek.portfolio.R;
 import com.tomaschlapek.portfolio.databinding.ItemPortfolioListAdapterExtendedBinding;
 import com.tomaschlapek.portfolio.domain.model.ProjectType;
 import com.tomaschlapek.portfolio.network.model.Project;
 import com.tomaschlapek.portfolio.presentation.ui.adapters.viewholder.ProjectViewHolder;
+import com.tomaschlapek.portfolio.presentation.ui.adapters.viewholder.ProjectViewHolderExtended;
 import com.tomaschlapek.portfolio.presentation.ui.adapters.viewholder.ProjectViewHolderExtendedFactory;
 import com.tomaschlapek.portfolio.presentation.ui.fragments.PortfolioListFragment;
 
@@ -42,6 +47,11 @@ public class PortfolioListAdapter extends RecyclerView.Adapter {
     if (viewType == ProjectType.NORMAL) {
       binding = ItemPortfolioListAdapterExtendedBinding
         .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+      viewHolder = mViewHolderFactories.get(viewType).createViewHolder(binding);
+      viewHolder.itemView
+        .setOnClickListener((v) -> onRepositoryItemClicked(viewHolder.getAdapterPosition(),
+          ((ItemPortfolioListAdapterExtendedBinding) binding).itemProjectIcon));
     } else if (viewType == ProjectType.SMALL) {
       //      binding = ItemPortfolioListAdapterExtendedBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
       return null;
@@ -52,21 +62,24 @@ public class PortfolioListAdapter extends RecyclerView.Adapter {
       return null;
     }
 
-    viewHolder = mViewHolderFactories.get(viewType).createViewHolder(binding);
 
-    viewHolder.itemView
-      .setOnClickListener((v) -> onRepositoryItemClicked(viewHolder.getAdapterPosition()));
 
     return viewHolder;
   }
 
-  private void onRepositoryItemClicked(int adapterPosition) {
-    mPortfolioListFragment.onProjectClick(mProjectList.get(adapterPosition));
+  private void onRepositoryItemClicked(int adapterPosition, View viewForTransition) {
+    mPortfolioListFragment.onProjectClick(mProjectList.get(adapterPosition), viewForTransition);
   }
 
   @Override
   public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
     ((ProjectViewHolder) holder).bind(mProjectList.get(position));
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      ((ProjectViewHolderExtended) holder).getBinding().itemProjectIcon.setTransitionName(
+        AndroidApplication.getAppComponent().provideContext().getResources().getString(
+          R.string.transition_project_logo) + "_" + position );
+    }
   }
 
   @Override
